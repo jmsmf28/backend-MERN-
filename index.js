@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 //const cors = require('cors');
 const mongoose = require('mongoose');
 const { User } = require('./models/user');
+const config = require('./config/key');
 
 
 require('dotenv').config();
@@ -13,9 +14,10 @@ require('dotenv').config();
 const app =  express();
 
 // db
-mongoose.connect(process.env.DATABASE_LOCAL, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false})
-.then( () => console.log('DB connected'))
-.catch(err => console.log(err));
+mongoose.connect(config.mongoURI, 
+    {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false})
+    .then( () => console.log('DB connected'))
+    .catch(err => console.log(err));
 
 //middleware
 app.use(bodyParser.urlencoded({ extended: true }));

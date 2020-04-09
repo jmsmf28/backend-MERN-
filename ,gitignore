@@ -7,6 +7,7 @@ npm-debug.log*
 yaern-debug.log*
 yarn-error.log*
 
-cloud.txt*
+cloud.txt
+dev.js
 
 .vscode
