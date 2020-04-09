@@ -1,0 +1,12 @@
+/node_modules
+/build
+
+.DS_Store
+
+npm-debug.log*
+yaern-debug.log*
+yarn-error.log*
+
+cloud.txt*
+
+.vscode
