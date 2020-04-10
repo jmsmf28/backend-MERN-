@@ -4,7 +4,7 @@ const { User } = require('./models/user');
 const { auth } = require('./middleware/auth');
 
 routes.get('/', (req, res) => {
-    res.json({"Hello": "I am happy"});
+    res.json({"Hell": "I am happy"});
 })
 
 routes.get('/api/user/auth', auth, (req, res) => {
