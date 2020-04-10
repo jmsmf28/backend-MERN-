@@ -1,38 +1,19 @@
 const express = require('express');
-const morgan = require('morgan');
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
-//const cors = require('cors');
-const mongoose = require('mongoose');
+const routes = express.Router();
 const { User } = require('./models/user');
-const config = require('./config/key');
+const { auth } = require('./middleware/auth');
 
-
-require('dotenv').config();
-
-// modes
-process.env.NODE_ENV = 'production';
-
-// app
-const app =  express();
-
-// db
-mongoose.connect(config.mongoURI, 
-    {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false})
-    .then( () => console.log('DB connected'))
-    .catch(err => console.log(err));
-
-//middleware
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(cookieParser());
-
-//routes
-app.get('/', (req, res) => {
-    res.send('Hello');
+routes.get('/api/user/auth', auth, (req, res) => {
+    res.status(200).json({
+        _id: req.id,
+        isAuth: true,
+        email: req.user.email,
+        name: req.user.name,
+        role: req.user.role
+    });
 });
 
-app.post('/api/users/register', (req, res) => {
+routes.post('/api/users/register', (req, res) => {
     const user = new User(req.body);
 
     user.save((err, userData) => {
@@ -45,7 +26,7 @@ app.post('/api/users/register', (req, res) => {
     })
 });
 
-app.post('/api/user/login', (req, res) => {
+routes.post('/api/user/login', (req, res) => {
     // find the email
     User.findOne({ email: req.body.email }, (err, user) => {
         if(!user)
@@ -69,19 +50,16 @@ app.post('/api/user/login', (req, res) => {
                 .status(200)
                 .json({
                     loginSuccess: true,
-                })
-        })
-    })
-
-    
-
-    
-
-})
-
-
-//port 
-const port = process.env.PORT || 8000;
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+                });
+        });
+    });
 });
+
+routes.get('/api/user/logout', auth, (req, res) => {
+    User.findOneAndUpdate( { _id: req.user._id }, { token: ''}, (err, doc) => {
+        if(err) return res.json({success: fals, err});
+        return  res.status(200).send({ success: true });
+    });
+});
+
+module.exports = routes;

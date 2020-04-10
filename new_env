@@ -1,0 +1,5 @@
+NODE_ENV= 'production'
+PORT = 8000
+DATABASE_LOCAL = 'mongodb://localhost:27017/auth_user'
+DATABASE_CLOUD = ''
+JWT_SECRET= 
