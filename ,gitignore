@@ -1,5 +1,5 @@
-/node_modules
-/build
+node_modules
+build
 
 dev.js
 
@@ -10,3 +10,7 @@ yaern-debug.log*
 yarn-error.log*
 
 .vscode
+
+server/config/dev.js
+
+.env
