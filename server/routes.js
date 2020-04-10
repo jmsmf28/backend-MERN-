@@ -3,9 +3,6 @@ const routes = express.Router();
 const { User } = require('./models/user');
 const { auth } = require('./middleware/auth');
 
-routes.get('/', (req, res) => {
-    res.json({"Hell": "I am happy"});
-})
 
 routes.get('/api/user/auth', auth, (req, res) => {
     res.status(200).json({
